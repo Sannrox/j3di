@@ -2,6 +2,7 @@ pub mod edit_json {
 
     use crate::edit::update_value;
     use crate::Types;
+    use serde_json::Number;
     use serde_json::Value;
 
     pub fn update(readed_data: &mut Value, update: String, value: String, type_of: Types) {
@@ -38,9 +39,21 @@ pub mod edit_json {
                         .map(|s| serde_json::to_value(s).unwrap())
                         .collect(),
                 ),
-                Types::Null => {}
-                Types::Number => {}
-                Types::Object => {}
+                Types::Null => update_value::to_null(vector, object),
+                Types::Number => {
+                    if wert.len() == 1 {
+                        let thing = wert.first().unwrap().to_string().parse::<f64>().unwrap();
+                        if let Some(number) = Number::from_f64(thing) {
+                            update_value::to_number(vector, object, number)
+                        }
+                    }
+                }
+                Types::Object => {
+                    let thing = wert.first().unwrap().to_string();
+                    let test_array: serde_json::Map<String, Value> =
+                        serde_json::from_str(&thing).unwrap();
+                    update_value::to_object(vector, object, test_array)
+                }
             }
         }
     }

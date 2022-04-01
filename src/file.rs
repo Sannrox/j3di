@@ -1,6 +1,6 @@
 pub mod file_actions {
 
-    use anyhow::{Context, Error, Result};
+    use anyhow::Context;
     use serde_json::Value;
     use std::fs::File;
     use std::io::Write;

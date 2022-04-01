@@ -85,16 +85,24 @@ fn main() -> Result<()> {
                         edit_value.to_string(),
                         *type_of,
                     );
+                } else if *type_of == Types::Null {
+                    edit_json::update(
+                        &mut readed_data,
+                        edit_update.to_string(),
+                        "".to_string(),
+                        Types::Null,
+                    )
                 } else {
                     panic!("Value is not set - no changes")
                 }
-            } else if let Some(edit_append) = append {
-                if let Some(edit_value) = value {
-                    let new_value: String = edit_value.to_string();
-                    let json_path: Vec<&str> = edit_append.split('.').collect();
-                    // recursive_json_tree(json_path, &mut readed_data, &new_value, *type_of);
-                    // write_json_file(&readed_data, path, *pretty);
-                }
+                // } else if let Some(edit_append) = append {
+                //     if let Some(edit_value) = value {
+                //         // let new_value: String = edit_value.to_string();
+                //         // let json_path: Vec<&str> = edit_append.split('.').collect();
+                //         // // recursive_json_tree(json_path, &mut readed_data, &new_value, *type_of);
+                //         // write_json_file(&readed_data, path, *pretty);
+                //     }
+                // }
             } else {
                 panic!("Please use an opiton for editing")
             }
